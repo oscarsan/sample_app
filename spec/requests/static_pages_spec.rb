@@ -27,7 +27,7 @@ describe "Static pages" do
 
   describe "Home page" do
     before { visit root_path }
-    let(:heading) { ('Home') }
+    let(:heading) { ('Sample App') }
     let(:page_title) { ('') }
 
     it_should_behave_like "all static pages"
@@ -53,7 +53,7 @@ describe "Static pages" do
 
   describe "Contact" do
     before { visit contact_path }
-    let(:heading) { ('Concat') }
+    let(:heading) { ('Contact') }
     let(:page_title) { ('Contact') }
 
     it_should_behave_like "all static pages"

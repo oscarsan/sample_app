@@ -18,3 +18,6 @@ doc/
 .DS_Store
 .idea
 .secret
+
+#ignore ssl security files
+/config/cert/*

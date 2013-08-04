@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   attr_accessor :name, :email
-  before_action :signed_in_user, only: [:index, :edit, :update]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
+  before_action :admin_user,     only: :destroy
 
   def new
   end
@@ -44,6 +45,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    nametodestroy = User.find(params[:id]).name
+    User.find(params[:id]).destroy
+    stringvar = "User " + nametodestroy +" destroyed."
+    flash[:success] = stringvar
+    redirect_to users_url
+  end
+
   private
 
     def user_params
@@ -65,6 +74,10 @@ class UsersController < ApplicationController
         sign_out
         redirect_to(root_url)
       end
+    end
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 
 end

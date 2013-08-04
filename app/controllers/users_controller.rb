@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   attr_accessor :name, :email
-  before_action :signed_in_user, only: [:edit, :update]
+  before_action :signed_in_user, only: [:index, :edit, :update]
   before_action :correct_user,   only: [:edit, :update]
 
   def new
@@ -8,6 +8,10 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+  end
+
+  def index
+    @users = User.all
   end
 
   def show

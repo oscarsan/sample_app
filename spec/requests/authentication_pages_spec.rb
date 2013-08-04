@@ -39,9 +39,10 @@ describe "AuthenticationPages" do
    		#end
 
   		it { should have_title(user.name) }
-   		it { should have_link('Profile', href: user_path(user)) }
+      it { should have_link('Users',       href: users_path) }
+   		it { should have_link('Profile',     href: user_path(user)) }
       it { should have_link('Settings',    href: edit_user_path(user)) }
-			it { should have_link('Sign out', href: signout_path) }
+			it { should have_link('Sign out',    href: signout_path) }
 			it { should_not have_link('Sign in', href: signin_path) }
 
       describe "followed by signout" do
@@ -58,7 +59,7 @@ describe "AuthenticationPages" do
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
 
-      describe "when attempting to cisit a protected page" do
+      describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
           sign_in(user)
@@ -84,6 +85,11 @@ describe "AuthenticationPages" do
           before { patch user_path(user) }
           specify { expect(response).to redirect_to(signin_path) }
         end
+
+        describe "visiting the user index" do
+          before { visit users_path }
+          it { should have_title('Sign in') }
+        end
       end
     end
 
@@ -104,4 +110,5 @@ describe "AuthenticationPages" do
       end
     end
   end
+
 end

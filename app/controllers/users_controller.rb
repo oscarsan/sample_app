@@ -8,7 +8,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    if !signed_in?
+      @user = User.new
+    else
+      flash[:error] = 'User signed in, can´t create new'
+      redirect_to root_url
+    end
   end
 
   def index
@@ -20,13 +25,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)    # Not the final implementation!
-    if @user.save
-      sign_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+    if !signed_in? 
+      @user = User.new(user_params)    # Not the final implementation!
+      if @user.save
+        sign_in @user
+        flash[:success] = "Welcome to the Sample App!"
+        redirect_to @user
+      else
+        render 'new'
+      end
     else
-      render 'new'
+        flash[:error] = 'User signed in, can´t create new'
+        redirect_to root_url
     end
   end
 

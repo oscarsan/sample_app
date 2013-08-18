@@ -18,8 +18,7 @@
       <%= render 'layouts/footer' %>
       <%if Rails.env.development? %>
         <%= debug(params) %>
-        <%= debug(request.remote_ip) %>
-        <%= debug(request.server_software) %>        
+        <%= content_tag(:pre, request.server_software + " " + request.remote_ip, class: "debug_dump") %>        
       <% end %>
     </div>
   </body>

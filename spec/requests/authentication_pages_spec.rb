@@ -33,12 +33,6 @@ describe "AuthenticationPages" do
     	before { sign_in(user) }
 
 
-      #do
-    	#	fill_in "Email", with: user.email.upcase
-  		#	fill_in "Password", with: user.password
-   		#	click_button "Sign in"
-   		#end
-
   		it { should have_title(user.name) }
       it { should have_link('Users',       href: users_path) }
    		it { should have_link('Profile',     href: user_path(user)) }

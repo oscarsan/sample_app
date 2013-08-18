@@ -98,6 +98,18 @@ describe "User pages" do
       specify { expect(user.reload.name).to  eq new_name }
       specify { expect(user.reload.email).to eq new_email } 
     end
+
+    describe "forbidden attributes" do
+      let(:params) do
+        { user: {  name: user.name, email: user.email, password: user.password,
+                  password_confirmation: user.password, admin: true } }
+      end
+      before { 
+        sign_in user, no_capybara: true
+        patch user_path(user), params 
+        }
+      specify { expect(user.reload).not_to be_admin }
+    end
   end
 
   describe 'index' do
@@ -123,7 +135,7 @@ describe "User pages" do
       it { should have_selector('div.pagination') }
 
       it "should list each user" do 
-        User.paginate(page: 1, per_page: 20).each do |user|
+        User.paginate(page: 1, per_page: 20).order('name ASC').each do |user|
           expect(page).to have_selector('li', text: user.name)
         end
       end

@@ -15,7 +15,8 @@ describe "AuthenticationPages" do
 		before { visit signin_path }
 
     describe "with invalid information" do
-    	before {click_button "Sign in" }
+      user = User.new
+    	before { sign_in(user) }
 
     	it { should have_title('Sign in') }
     	#it { should have_selector('div.alert.alert-error', text: 'Invalid') }
@@ -121,6 +122,12 @@ describe "AuthenticationPages" do
       specify { expect(response).to redirect_to(root_url) }
      end 
     end
+  end
+
+  describe 'links when not non-signed-in' do
+    before { visit root_url }
+    it { should_not have_link('Profile') }
+    it { should_not have_link('Settings') }
   end
 
 end

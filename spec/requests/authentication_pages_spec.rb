@@ -64,6 +64,19 @@ describe "AuthenticationPages" do
           it "should render the desired protected page" do
             expect(page).to have_title('Edit user')
           end
+
+          describe "if we repeat the sign in" do
+            before do
+              click_link "Sign out"
+              click_link "Sign in"
+              sign_in(user)
+            end
+            it "should go to profile page" do
+              expect(page).to have_title(user.name)
+            end
+          end
+
+
         end
       end
 

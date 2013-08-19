@@ -56,11 +56,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    nametodestroy = User.find(params[:id]).name
-    User.find(params[:id]).destroy
-    stringvar = "User " + nametodestroy +" destroyed."
-    flash[:success] = stringvar
-    redirect_to users_url
+    usertodestroy = User.find(params[:id])
+    if (current_user == usertodestroy)
+      flash[:error] = 'Can´t delete own user'
+    else
+      usertodestroy.destroy
+      flash[:success] = "User destroyed. ID: #{usertodestroy.name}"
+      redirect_to users_url
+    end
   end
 
   private

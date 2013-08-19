@@ -44,10 +44,17 @@ describe "AuthenticationPages" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
       end
-
    	end
 
-	end
+    describe "as admin user" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before { sign_in(admin) }
+
+      it "should not be able to delete itself" do
+        expect { delete user_path(admin)  }.not_to change(User, :count) 
+      end
+    end
+  end
 
   describe "authorization" do
 
